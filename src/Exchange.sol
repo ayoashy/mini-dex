@@ -56,7 +56,7 @@ return(ethToReturn,tokenToReturn);
 
 function getOutputAmount(uint256 inputAmount, uint256 inputReserve, uint256 outputReserve) public view returns(uint256) {
  require(inputReserve > 0 && outputReserve > 0, "reserves must be more than zero" );
- inputAmountWithFee = inputAmount * 99;
+ uint256 inputAmountWithFee = inputAmount * 99;
  uint256 numerator = inputAmountWithFee * outputReserve;
  uint256 denominator = inputAmountWithFee + (inputReserve * 100);
  return numerator / denominator;
