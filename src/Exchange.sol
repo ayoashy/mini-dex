@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
@@ -77,6 +77,5 @@ function tokenToEthSwap(uint256 tokenToSwap, uint256 minEthToRecieve) public {
  require(ethToRecieve > minEthToRecieve, "not up to minimum eth to recieve");
  ERC20(tokenAddress).transferFrom(msg.sender, address(this), tokenToSwap);
  payable(msg.sender).transfer(msg.sender, ethToRecieve);
-
 }
 }
