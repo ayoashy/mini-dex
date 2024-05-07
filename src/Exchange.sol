@@ -42,13 +42,14 @@ function removeLiquidity(uint256 lpTokenAmount) public returns(uint256, uint256)
  require(lpTokenAmount > 0, "lpTokenAmount must be greater than 0");
 
  uint256 ethReserveBalance = address(this).balance;
- uint256 tokenReserveBalance = totalSupply();
+ uint256 liquidityTokenSupply = totalSupply();
 
- uint256 ethToReturn = (ethReserveBalance * lpTokenAmount) / tokenReserveBalance();
- uint256 tokenToReturn = (tokenReserveBalance * lpTokenAmount) / tokenReserveBalance();
+
+ uint256 ethToReturn = (ethReserveBalance * lpTokenAmount) / liquidityTokenSupply;
+ uint256 tokenToReturn = (getReserve() * lpTokenAmount) / liquidityTokenSupply;
 
 _burn(msg.sender, lpTokenAmount);
-payable(msg.sender).transfer(msg.sender, ethToReturn);
+payable(msg.sender).transfer(ethToReturn);
 ERC20(tokenAddress).transfer(msg.sender, tokenToReturn);
 
 return(ethToReturn,tokenToReturn);
@@ -76,6 +77,6 @@ function tokenToEthSwap(uint256 tokenToSwap, uint256 minEthToRecieve) public {
  uint256 ethToRecieve = getOutputAmount(tokenToSwap, getReserve(), address(this).balance);
  require(ethToRecieve > minEthToRecieve, "not up to minimum eth to recieve");
  ERC20(tokenAddress).transferFrom(msg.sender, address(this), tokenToSwap);
- payable(msg.sender).transfer(msg.sender, ethToRecieve);
+ payable(msg.sender).transfer( ethToRecieve);
 }
 }
